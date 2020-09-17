@@ -11,7 +11,9 @@ class BarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('R ${spendingAmount.toStringAsFixed(0)}'),
+        FittedBox(
+          child: Text('R ${spendingAmount.toStringAsFixed(0)}'),
+        ),
         SizedBox(
           height: 4,
         ),
