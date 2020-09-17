@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
 
+import './bar_chart.dart';
+
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransactions;
 
@@ -31,6 +33,12 @@ class Chart extends StatelessWidget {
     });
   }
 
+  double get totalSpending {
+    return groupedTransactionValues.fold(0.0, (sum, item) {
+      return sum + item['amount'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -38,8 +46,12 @@ class Chart extends StatelessWidget {
       margin: EdgeInsets.all(20),
       child: Row(
         children: groupedTransactionValues.map((transactionGroup) {
-          return Text(
-            '${transactionGroup['day']} : ${transactionGroup['amount'].toString()}',
+          return BarChart(
+            transactionGroup['day'],
+            transactionGroup['amount'],
+            totalSpending == 0.0
+                ? 0.0
+                : (transactionGroup['amount'] as double) / totalSpending,
           );
         }).toList(),
       ),
